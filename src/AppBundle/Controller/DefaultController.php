@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Utils\RandomController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -17,12 +18,7 @@ class DefaultController extends Controller
     {
         $randomBeer = null;
 
-        do{
-
-            $randomStyleId = $randomController->getRandomStyle();
-            $randomBeer = $randomController->getRandomBeer($randomStyleId);
-            $isSet = isset($randomBeer->description);
-        } while ($isSet == false);
+        $randomBeer = $randomController->getRandomBeer();
 
         return $this->render('default/index.html.twig', [
             'rand_beer' => $randomBeer,
@@ -38,10 +34,9 @@ class DefaultController extends Controller
      */
     public function getBeer(Request $request, RandomController $randomController)
     {
-        $randBeer = $randomController->getRandomBeer($randomController->getRandomStyle());
+        $randBeer = null;
 
-        return $this->render('default/getBeer.html.twig', array(
-            'beer' => $randBeer,
-        ));
-    }
+        $randomBeer = $randomController->getRandomBeer();
+
+        return new JsonResponse($randomBeer, 200);    }
 }
