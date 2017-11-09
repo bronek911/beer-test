@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+        {{ dump(rand_beer) }}
+        {# {{ dump(curl) }} #}
+    
+<div class="container-fluid">
+    <h1>Distilled SCH Beer Application</h1>
+
+    <div class="random-beer">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="rand-beer-name">{{ rand_beer.name }}</div>
+                <div class="rand-beer-pic">
+                    <img src="{{ rand_beer.labels.medium }}" alt="Beer picture">
+                </div>
+            </div>
+            <div class="col-sm-7 rand-beer-desc">
+                {{ rand_beer.description }}    
+            </div>
+            <div class="col-sm-2 rand-beer-buttons">
+                <button class="btn">Another beer</button>
+                <button class="btn">More from this brewery</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
