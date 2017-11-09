@@ -15,20 +15,33 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request, RandomController $randomController)
     {
-
-        $randBeer = null;
+        $randomBeer = null;
 
         do{
-            $randStyleId = $randomController->getRandomStyle();
-            $randBeer = $randomController->getRandomBeer($randStyleId);
-            $isSet = isset($randBeer->description);
+
+            $randomStyleId = $randomController->getRandomStyle();
+            $randomBeer = $randomController->getRandomBeer($randomStyleId);
+            $isSet = isset($randomBeer->description);
         } while ($isSet == false);
 
-
-        // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
-            'rand_beer' => $randBeer,
+            'rand_beer' => $randomBeer,
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
         ]);
+    }
+
+
+    /**
+     * Gets random beer in JSON response.
+     *
+     * @Route("/getBeer", name="get_beer")
+     */
+    public function getBeer(Request $request, RandomController $randomController)
+    {
+        $randBeer = $randomController->getRandomBeer($randomController->getRandomStyle());
+
+        return $this->render('default/getBeer.html.twig', array(
+            'beer' => $randBeer,
+        ));
     }
 }

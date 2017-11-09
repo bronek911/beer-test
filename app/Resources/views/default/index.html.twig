@@ -2,7 +2,6 @@
 
 {% block body %}
 
-
         {{ dump(rand_beer) }}
         {# {{ dump(curl) }} #}
     
@@ -21,8 +20,8 @@
                 {{ rand_beer.description }}    
             </div>
             <div class="col-sm-2 rand-beer-buttons">
-                <button class="btn">Another beer</button>
-                <button class="btn">More from this brewery</button>
+                <button type="button" class="btn btn-primary btn-another-beer">Another beer</button>
+                <button type="button" class="btn btn-primary">More from this brewery</button>
             </div>
         </div>
     </div>
