@@ -6,6 +6,7 @@ header('Access-Control-Allow-Origin: *');
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Utils\RandomController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -17,8 +18,8 @@ class DefaultController extends Controller
     public function indexAction(Request $request, RandomController $randomController)
     {
         $randomBeer = null;
-
         $randomBeer = $randomController->getRandomBeer();
+        // $brewery = $randomBeer;
 
         return $this->render('default/index.html.twig', [
             'rand_beer' => $randomBeer,
@@ -26,17 +27,21 @@ class DefaultController extends Controller
         ]);
     }
 
-
     /**
-     * Gets random beer in JSON response.
-     *
-     * @Route("/getBeer", name="get_beer")
+     * @Route("/moreFromBrewery/{id}", name="more_from_brewery")
      */
-    public function getBeer(Request $request, RandomController $randomController)
+    public function moreFromBreweryAction(Request $request, DataController $dataController, $id)
     {
-        $randBeer = null;
+        
+        $brewery = $dataController->getBreweryInfo($request, $id)->getContent();
+        $beers = $dataController->getBrewery($request, $id)->getContent();
+        $breweryArray = json_decode($brewery);
+        $beersArray = json_decode($beers);
 
-        $randomBeer = $randomController->getRandomBeer();
-
-        return new JsonResponse($randomBeer, 200);    }
+        return $this->render('default/more_from_brewery.html.twig', [
+            'brewery' => $breweryArray,
+            'beers' => $beersArray,
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        ]);
+    }
 }

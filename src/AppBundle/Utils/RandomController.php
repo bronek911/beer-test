@@ -33,7 +33,7 @@ class RandomController
 
     	//Random beer
         //////////////////////////////////////////
-        $beers = file_get_contents("http://api.brewerydb.com/v2/beers?styleId=" . $randStyleId . "&order=random&hasLabels=Y&key=8ee73f8ad196bad6801099c189be9893");
+        $beers = file_get_contents("http://api.brewerydb.com/v2/beers?styleId=" . $randStyleId . "&order=random&hasLabels=Y&withBreweries=Y&key=8ee73f8ad196bad6801099c189be9893");
         $beersArray = json_decode($beers);
 
         $randomBeer = $beersArray->data[0];

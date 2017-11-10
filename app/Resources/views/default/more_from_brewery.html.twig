@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	{{ dump(brewery.data) }}
+	{# {{ dump(beers.data) }} #}
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="{{brewery.data.images.squareMedium}}">
+			</div>
+			<div class="col-sm-9 brew-desc">
+				<h1><a href="{{brewery.data.website}}">"{{brewery.data.name}}"</a></h1>
+				{{brewery.data.description}}
+			</div>
+		</div>
+
+		<br><br><br>
+
+		{% for beer in beers.data %}
+			{{beer.name}}<br>
+		{% endfor %}
+
+	</div>
+	
+{% endblock %}

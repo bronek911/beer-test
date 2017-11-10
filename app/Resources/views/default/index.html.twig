@@ -2,7 +2,7 @@
 
 {% block body %}
 
-        {# {{ dump(rand_beer) }} #}
+        {{ dump(rand_beer) }}
         {# {{ dump(curl) }} #}
     
 <div class="container-fluid">
@@ -21,7 +21,8 @@
             </div>
             <div class="col-sm-2 rand-beer-buttons">
                 <button type="button" class="btn btn-primary btn-another-beer">Another beer</button>
-                <button type="button" class="btn btn-primary">More from this brewery</button>
+                <a href="/moreFromBrewery/{{ rand_beer.breweries[0].id }}" type="button" class="btn btn-primary btn-beer-brewery">More from this brewery</a>
+
             </div>
         </div>
     </div>
