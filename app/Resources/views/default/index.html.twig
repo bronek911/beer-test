@@ -2,7 +2,7 @@
 
 {% block body %}
 
-        {{ dump(rand_beer) }}
+        {# {{ dump(rand_beer) }} #}
         {# {{ dump(curl) }} #}
     
 <div class="container-fluid">
@@ -11,22 +11,101 @@
     <div class="random-beer">
         <div class="row">
             <div class="col-sm-3">
-                <div class="rand-beer-name">{{ rand_beer.name }}</div>
+                <div class="rand-beer-name"><h5>
+                    <a href="{{ path('deer_description', {'id': rand_beer.id}) }}">{{ rand_beer.name }}</a>
+                </h5></div>
                 <div class="rand-beer-pic">
                     <img src="{{ rand_beer.labels.medium }}" alt="Beer picture">
                 </div>
             </div>
-            <div class="col-sm-7 rand-beer-desc">
+            <div class="col-sm-6 rand-beer-desc">
                 {{ rand_beer.description }}    
             </div>
-            <div class="col-sm-2 rand-beer-buttons">
-                <button type="button" class="btn btn-primary btn-another-beer">Another beer</button>
-                <a href="/moreFromBrewery/{{ rand_beer.breweries[0].id }}" type="button" class="btn btn-primary btn-beer-brewery">More from this brewery</a>
-
+            <div class="col-sm-3 rand-beer-buttons">
+                <div class="top-screen-button">
+                    <button type="button" class="btn btn-primary btn-another-beer">Another beer</button>
+                </div>
+                <div class="top-screen-button">
+                    <form action="/brewery/{{ rand_beer.breweries[0].id }}">
+                        <input type="submit" class="btn btn-primary btn-beer-brewery" value="About brewery" />
+                    </form>
+                </div>
+                <div class="top-screen-button">
+                    <form method="POST" action="{{ path('homepage') }}">
+                        <input type="hidden" id="brewery-id" name="brewery-id" value="{{ rand_beer.breweries[0].id }}">
+                        <input type="hidden" id="prev-rand-beer-id" name="prev-rand-beer-id" value="{{ rand_beer.id }}">
+                        <button type="submit" class="btn btn-primary btn-more-beers">More from this brewery</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+    {#  I had some problems with rendering view for the form so I written it by myself #}
+    
+    {#
+    <h2>Search</h2>
+    {{ form_start(form) }}
+        {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+        {{ form_errors(form) }}
+    {{ form_end(form) }}  
+    #}
+
+    <h2>Search</h2>
+    <form class="form-inline" method="POST" action="{{ path('homepage' )}}">
+      <div class="form-group">
+        <label class="form-check-label">
+            <input type="text" class="form-control{{ errors['input-validation'] is defined ? ' error' : '' }}" name="phrase" id="phrase" placeholder="{{ errors['input-validation'] is defined ? 'Only numbers, letters, hyphens and spaces are allowed' : 'Search' }}">
+        </label>
+      </div>
+      <div class="bordered form-group mx-sm-3">
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="searchCategory" id="inlineRadio1" value="beer" checked> Beer
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input class="form-check-input" type="radio" name="searchCategory" id="inlineRadio2" value="brewery"> Brewery
+          </label>
+        </div>
+      </div>
+      <div class="mx-sm-3">
+          <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+
 </div>
+{% if searchData is defined %}
+    {# {{ dump(searchData) }} #}
+    <div class="container-fluid search-results">
+
+        {% for item in searchData.data %}
+        <div class="card card-search-result" data-category="{{ searchCategory }}" data-id="{{ item.id }}">
+
+            <div class="row">
+
+                {% if item.labels is defined %}
+                    <div class="col-sm-1">
+                        <img class="card-img-search" src="{{item.labels.icon}}" alt="Card image cap">
+                    </div>
+                {% endif %}
+                
+                <div class="{{ item.labels is defined ? 'col-sm-11' : 'col-sm-12' }}">
+                    <div class="container-fluid item-info">
+                        <h5>{{ item.name }}</h5>
+                        {% if item.description is defined %}
+                            <p>{{ item.description|length > 50 ? item.description|slice(0, 100) ~ '...' : item.description  }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
 
 {% endblock %}

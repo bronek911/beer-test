@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row all-beer-data">
+			{% if beer.data.labels is defined %}
+			<div class="col-sm-3">
+				<img class="beer-img" src="{{beer.data.labels.medium}}" alt="Card image cap">
+			</div>
+			{% endif %}
+			<div class="{{ beer.data.labels is defined ? 'col-sm-9 ' : 'col-sm-12 ' }}beer-details">
+				
+				{% if beer.data.name is defined %}
+					<div>
+						<h4>Name</h4>
+						<p>{{beer.data.name}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.description is defined %}
+					<div>
+						<h4>Description</h4> 
+						<p>{{beer.data.description}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.foodPairings is defined %}
+					<div>
+						<h4>Food pairings</h4>
+						<p>{{beer.data.foodPairings}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.originalGravity is defined %}
+					<div>
+						<h4>Original gravity</h4>
+						<p>{{beer.data.originalGravity}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.abv is defined %}
+					<div>
+						<h4>ABV</h4>
+						<p>{{beer.data.abv}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.ibu is defined %}
+					<div>
+						<h4>IBU</h4>
+						<p>{{beer.data.ibu}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.glass is defined %}
+					<div>
+						<h4>Glass name</h4>
+						<p>{{beer.data.glass.name}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.style is defined %}
+					<div>
+						<h4>Style</h4>
+						<p>{{beer.data.style.name}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.isOrganic is defined %}
+					<div>
+						<h4>Is organic</h4>
+						<p>{{beer.data.isOrganic}}</p>
+					</div>
+				{% endif %}
+
+				{% if beer.data.servingTemperatureDisplay is defined %}
+					<div>
+						<h4>Serving temperature</h4>
+						<p>{{beer.data.servingTemperatureDisplay}}</p>
+					</div>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

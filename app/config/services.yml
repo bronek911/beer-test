@@ -29,6 +29,14 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    validation_service:
+        class: AppBundle\Utils\ValidationController
+        public: true
+
+    random_service:
+        class: AppBundle\Utils\RandomController
+        public: true
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

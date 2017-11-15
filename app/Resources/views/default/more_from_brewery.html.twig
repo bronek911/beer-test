@@ -2,7 +2,7 @@
 
 {% block body %}
 
-	{{ dump(brewery.data) }}
+	{# {{ dump(brewery.data) }} #}
 	{# {{ dump(beers.data) }} #}
 
 	<div class="container-fluid">
@@ -18,10 +18,36 @@
 
 		<br><br><br>
 
-		{% for beer in beers.data %}
-			{{beer.name}}<br>
-		{% endfor %}
+		<div class="card-columns">
+		{% if beers.data is defined %}
+			{% for beer in beers.data %}
+			    <div class="card card-more-beers" id="{{beer.id}}">
+
+					<div class="row">
+						{% if beer.labels is defined %}
+				    		<div class="col-sm-5"><img class="card-img-top" src="{{beer.labels.medium}}" width="64" alt="Card image cap"></div>
+						{% endif %}
+						
+					    <div class="{% if beer.labels is defined %}col-sm-7{% endif %} card-body">
+					      <h5 class="card-title">{{beer.name}}</h5>
+					      <p class="card-text">
+							{% if beer.description is defined %}
+							    {{beer.description}}
+							{% else %}
+								No description
+							{% endif %}
+					      </p>
+					    </div>
+					</div>
+
+			    </div>
+			{% endfor %}
+		{% else %}
+			No beers found. Try searching by name.
+		{% endif %}
+
+		</div>
 
 	</div>
-	
+
 {% endblock %}
